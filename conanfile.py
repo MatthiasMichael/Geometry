@@ -10,6 +10,7 @@ class GeometryConan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
+        cmake.definitions["BUILD_EXAMPLES"] = False
         cmake.configure(source_dir="%s/cmake" % self.source_folder)
         cmake.build()
 
