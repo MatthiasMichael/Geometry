@@ -11,34 +11,26 @@ class GeometryConan(ConanFile):
         "build_test_convex_hull": [True, False],
         "build_test_coordinate_transform": [True, False],
         "build_test_operations": [True, False],
-        "build_test_projective_transform": [True, False],
-        "build_all_tests": [True, False]
+        "build_test_projective_transform": [True, False]
     }
     default_options = {
         "build_test_convex_hull": False,
         "build_test_coordinate_transform": False,
         "build_test_operations": False,
-        "build_test_projective_transform": False,
-        "build_all_tests": False
+        "build_test_projective_transform": False
     }
 
     def requirements(self):
-        if self.options.build_test_coordinate_transform or self.options.build_all_tests:
+        if self.options.build_test_coordinate_transform:
             self.requires("OsgVisualization/1.0@MatthiasMichael/stable")
 
     def _configure_cmake(self):
         cmake = CMake(self)
-        cmake.definitions["BUILD_EXAMPLES"] = \
-            self.options.build_test_convex_hull or \
-            self.options.build_test_coordinate_transform or \
-            self.options.build_test_operations or \
-            self.options.build_test_projective_transform or \
-            self.options.build_all_tests
         
-        cmake.definitions["BUILD_EXAMPLE_CONVEX_HULL"] = self.options.build_test_convex_hull or self.options.build_all_tests
-        cmake.definitions["BUILD_EXAMPLE_COORDINATE_TRANSFORM"] = self.options.build_test_coordinate_transform or self.options.build_all_tests
-        cmake.definitions["BUILD_EXAMPLE_OPERATIONS"] = self.options.build_test_operations or self.options.build_all_tests
-        cmake.definitions["BUILD_EXAMPLE_PROJECTIVE_TRANSFORM"] = self.options.build_test_projective_transform or self.options.build_all_tests
+        cmake.definitions["BUILD_EXAMPLE_CONVEX_HULL"] = self.options.build_test_convex_hull
+        cmake.definitions["BUILD_EXAMPLE_COORDINATE_TRANSFORM"] = self.options.build_test_coordinate_transform
+        cmake.definitions["BUILD_EXAMPLE_OPERATIONS"] = self.options.build_test_operations
+        cmake.definitions["BUILD_EXAMPLE_PROJECTIVE_TRANSFORM"] = self.options.build_test_projective_transform
         
         cmake.configure(source_dir="%s/cmake" % self.source_folder)
         
@@ -49,7 +41,7 @@ class GeometryConan(ConanFile):
         cmake.build()
 
     def imports(self):
-        if self.options.build_test_coordinate_transform or self.options.build_all_tests:
+        if self.options.build_test_coordinate_transform:
             self.copy("*.dll", "test/test_coordinate_transform", "bin")
 
     def package(self):
