@@ -6,7 +6,7 @@ class GeometryConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
     exports_sources = "cmake/*", "include/*", "src/*"
-    requires = "NamedType/1.0@MatthiasMichael/stable", "eigen/3.3.7@conan/stable", "boost_qvm/1.66.0@bincrafters/stable"
+    requires = "NamedType/1.0@MatthiasMichael/stable", "eigen/3.3.7@conan/stable", "boost/1.71.0"
     options = {
         "build_test_convex_hull": [True, False],
         "build_test_coordinate_transform": [True, False],
